@@ -16,7 +16,7 @@ class TechnologySeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        $technology_data = ['HTML', 'CSS', 'Bootstrap', 'JavaScript ES5', 'VueJS3', 'Axios', 'RESTful API', 'JSON', 'SQL', 'PHP, Laravel']; 
+        $technology_data = ['HTML', 'CSS', 'Bootstrap', 'JavaScript ES5', 'VueJS3', 'Axios', 'RESTful API', 'JSON', 'SQL', 'PHP', 'Laravel']; 
         
         foreach ($technology_data as $_technology) {
             $technology = new Technology;
