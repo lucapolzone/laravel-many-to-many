@@ -11,9 +11,9 @@
             <p><strong>Descrizione: </strong>{{ $project->content }}</p>
             <p><strong>Categoria: </strong>{!! $project->type->getBadge() !!}</p>
             <p><strong>Link al progetto: </strong>{{ $project->link }}</p>
-            @foreach ($project->technologies as $technology)
-                {{ $technology->label }} @unless ($loop->last) - @endunless
-            @endforeach
+            <p>
+                {{ $project->getTechnologiesToText() }}
+            </p>
 
         </div>
         
