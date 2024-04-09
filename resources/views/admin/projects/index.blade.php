@@ -12,6 +12,7 @@
                 <thead>
                     <th scope="col">Titolo progetto</th>
                     <th scope="col">Categoria</th>
+                    <th scope="col" class="text-center">Tecnologie usate</th>
                     <th scope="col">Descrizione</th>
                     <th scope="col">Link esterno al progetto</th>
                     <th scope="col" class="text-center">Mostra in pagina</th>
@@ -25,6 +26,7 @@
                         <tr>
                             <td>{{ $project->title }}</td>
                             <td>{!! $project->type->getBadge() !!}</td> {{-- dietro questa sintassi c'è una JOIN sul db. È possibile grazie alla relazione nei Models --}}
+                            <td>{{ $project->getTechnologiesToText() }}</td>
                             <td>{{ $project->content }}</td>
                             <td>
                                 <a href="{{ $project->link }}" target="_blank">Link</a>

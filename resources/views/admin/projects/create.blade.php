@@ -17,6 +17,15 @@
                   @enderror
                 </div>
 
+                <div class="col">
+                  @foreach($technologies as $technology)
+                    <div>
+                      <input class="form-check-input" id="technologies-{{ $technology->id }}" name="technologies" type="checkbox">
+                      <label class="form-check-label" for="technologies-{{ $technology->id }}">{{ $technology->label }}</label>
+                    </div>
+                  @endforeach
+                </div>
+
                 <div class="mb-3">
                   <label class="form-label" for="content">Descrizione progetto</label>
                   <input class="form-control @error('content') is-invalid @enderror" value="{{ old('content') }}" type="text" id="content" name="content">
