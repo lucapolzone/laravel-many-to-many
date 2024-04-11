@@ -47,6 +47,7 @@ class ProjectController extends Controller
     {
         // $data = $request->all();
         $data = $this->validation($request->all());
+        // dd($data);
 
         $project = new Project;
 
@@ -122,6 +123,7 @@ class ProjectController extends Controller
               'type_id' => 'required',
               'content' => 'required|max:300',
               'link' => 'required',
+              'technologies' => 'nullable|exists:technologies,id'
             ],
             [
               //... messaggi di errore
