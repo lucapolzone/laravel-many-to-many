@@ -9,6 +9,9 @@ use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Arr;
+
+
 
 
 class ProjectController extends Controller
@@ -20,7 +23,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::paginate(4);
+        $projects = Project::orderBy('id', 'desc')->paginate(4);
+        // dd($projects);
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -55,7 +59,9 @@ class ProjectController extends Controller
 
         $project->save();
 
-        $project->technologies()->attach($data['technologies']);
+        if (Arr::exists($data, 'technologies')) {
+            $project->technologies()->attach($data['technologies']);
+        }
 
         return redirect()->route('admin.projects.show', $project);
     }
@@ -82,7 +88,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types =  Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
 
@@ -98,6 +105,13 @@ class ProjectController extends Controller
         // $data = $request->all();
         $data = $this->validation($request->all());
 		$project->update($data);
+
+        if (Arr::exists($data, 'technologies')) {
+            $project->technologies()->sync($data['technologies']);
+        } else {
+            $project->technologies()->detach();
+        }
+
 		return redirect()->route('admin.projects.show', $project);
     }
 

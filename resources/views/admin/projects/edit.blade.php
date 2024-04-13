@@ -18,6 +18,13 @@
                   @enderror
                 </div>
 
+                <div class="col-7" style="max-width: 655px">
+                  @foreach($technologies as $technology)
+                      <input {{ $project->technologies->contains($technology->id) ? 'checked' : '' }} class="form-check-input" id="technologies-{{ $technology->id }}" name="technologies[]" type="checkbox" value="{{ $technology->id }}">
+                      <label class="form-check-label me-2" for="technologies-{{ $technology->id }}">{{ $technology->label }}</label>
+                  @endforeach
+                </div>
+
                 <div class="mb-3">
                   <label class="form-label" for="content">Descrizione progetto</label>
                   <input class="form-control @error('content') is-invalid @enderror" value="{{ old('content') ?? $project->content }}" type="text" id="content" name="content">

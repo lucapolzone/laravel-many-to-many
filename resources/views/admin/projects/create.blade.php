@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <section>
+    <section class="my-3">
         <div class="container">
-            <h1>Inserisci un nuovo progetto</h1>
-            <form action="{{ route('admin.projects.store') }}" method="POST">
+            <h1 class="mb-5">Inserisci un nuovo progetto</h1>
+            <form action="{{ route('admin.projects.store') }}" method="POST" class="row mb-4">
                 @csrf
 
-                <div class="mb-3">
+                <div class="col-5">
                   <label class="form-label" for="title">Titolo progetto</label>
                   <input class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}" type="text" id="title" name="title">
                   @error('title')
@@ -17,18 +17,18 @@
                   @enderror
                 </div>
 
-                <div class="col">
+                <div class="col-7" style="max-width: 655px">
                   @foreach($technologies as $technology)
-                    <div>
                       <input class="form-check-input" id="technologies-{{ $technology->id }}" name="technologies[]" type="checkbox" value="{{ $technology->id }}">
-                      <label class="form-check-label" for="technologies-{{ $technology->id }}">{{ $technology->label }}</label>
-                    </div>
+                      <label class="form-check-label me-2" for="technologies-{{ $technology->id }}">{{ $technology->label }}</label>
                   @endforeach
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label" for="content">Descrizione progetto</label>
-                  <input class="form-control @error('content') is-invalid @enderror" value="{{ old('content') }}" type="text" id="content" name="content">
+                  <textarea class="form-control @error('content') is-invalid @enderror" type="text" id="content" name="content" rows="5">
+                    {{ old('content') }}
+                  </textarea>  
                   @error('content')
                     <div class="invalid-feedback">
                       {{ $message }}
@@ -36,7 +36,7 @@
                   @enderror  
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3 col-6">
                     <label for="select" class="form-label">Categoria</label>                    
                     <select class="form-select @error('type_id') is-invalid @enderror" id="type_id" name="type_id">
                         <option class="d-none" value="">Seleziona una categoria</option>
@@ -59,11 +59,11 @@
                         {{ $message }}
                       </div>
                     @enderror  
-                  </div>
-                
-                <button type="submit" class="btn btn-success">Salva</button>
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-success">Salva</button>
+                </div>
               </form>
-
         </div>
     </section>
 @endsection
