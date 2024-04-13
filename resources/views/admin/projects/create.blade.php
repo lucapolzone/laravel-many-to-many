@@ -17,12 +17,30 @@
                   @enderror
                 </div>
 
-                <div class="col-7" style="max-width: 655px">
+                {{-- <div class="col-7" style="max-width: 655px">
                   @foreach($technologies as $technology)
                       <input class="form-check-input" id="technologies-{{ $technology->id }}" name="technologies[]" type="checkbox" value="{{ $technology->id }}">
                       <label class="form-check-label me-2" for="technologies-{{ $technology->id }}">{{ $technology->label }}</label>
                   @endforeach
+                </div> --}}
+
+                <div class="col-7" style="max-width: 655px">
+                  <div @class(['is-invalid' => $errors->has('technologies')])>
+                    @foreach($technologies as $technology)
+
+                    {{-- Controlla se technology->id c'è nell'array degli id delle technologies selezionate prima (utilizzando la funzione old) o nell'array degli id delle technologies associate al progetto.
+                    Se l'id c'è, imposta l'attributo "checked" dell'input, altrimenti lo lascia vuoto. --}}
+                      <input {{ in_array($technology->id, old('technologies', $project_technologies_id ?? [])) ? 'checked' : '' }} @class(['form-check-input', 'is-invalid' => $errors->has('technologies')]) id="technologies-{{ $technology->id }}" name="technologies[]" type="checkbox" value="{{ $technology->id }}">
+                      <label class="form-check-label me-2" for="technologies-{{ $technology->id }}">{{ $technology->label }}</label>
+                    @endforeach
+                  </div>
+                  @error('technologies')
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
+                  @enderror
                 </div>
+
 
                 <div class="mb-3">
                   <label class="form-label" for="content">Descrizione progetto</label>

@@ -38,7 +38,8 @@ class ProjectController extends Controller
         $project =  new Project;
         $types =  Type::all();
         $technologies = Technology::all();
-        return view('admin.projects.create', compact('project', 'types', 'technologies')); 
+        $project_technologies_id = $project->technologies->pluck('id')->toArray(); 
+        return view('admin.projects.create', compact('project', 'types', 'technologies', 'project_technologies_id')); 
     }
 
     /**
@@ -89,7 +90,7 @@ class ProjectController extends Controller
     {   
         $types =  Type::all();
         $technologies = Technology::all();
-        //tutti gli id delle tecnologie associate a questo progetto
+        //tutti gli id delle tecnologie associate a questo progetto. Trasformo in un array e nel form uso il metodo in_array()
         $project_technologies_id = $project->technologies->pluck('id')->toArray(); 
         return view('admin.projects.edit', compact('project', 'types', 'technologies', 'project_technologies_id'));
     }
@@ -154,6 +155,8 @@ class ProjectController extends Controller
               'content.max' => 'Il titolo deve essere lungo max 300 caratteri',
               
               'link.required' => 'Il link è obbligatorio',
+              
+              'technologies.required' => 'Seleziona almeno una categoria',
               ]
           )->validate();
 
