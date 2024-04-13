@@ -86,10 +86,12 @@ class ProjectController extends Controller
     //  * @return \Illuminate\Http\Response
      */
     public function edit(Project $project)
-    {
+    {   
         $types =  Type::all();
         $technologies = Technology::all();
-        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
+        //tutti gli id delle tecnologie associate a questo progetto
+        $project_technologies_id = $project->technologies->pluck('id')->toArray(); 
+        return view('admin.projects.edit', compact('project', 'types', 'technologies', 'project_technologies_id'));
     }
 
 
@@ -123,6 +125,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        $project->technologies()->detach();
         $project->delete();
 		return redirect()->route('admin.projects.index');
     }
@@ -137,7 +140,7 @@ class ProjectController extends Controller
               'type_id' => 'required',
               'content' => 'required|max:300',
               'link' => 'required',
-              'technologies' => 'nullable|exists:technologies,id'
+              'technologies' => 'required|exists:technologies,id'
             ],
             [
               //... messaggi di errore

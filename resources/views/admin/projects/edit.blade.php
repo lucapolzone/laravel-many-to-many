@@ -19,10 +19,17 @@
                 </div>
 
                 <div class="col-7" style="max-width: 655px">
-                  @foreach($technologies as $technology)
-                      <input {{ $project->technologies->contains($technology->id) ? 'checked' : '' }} class="form-check-input" id="technologies-{{ $technology->id }}" name="technologies[]" type="checkbox" value="{{ $technology->id }}">
+                  <div @class(['is-invalid' => $errors->has('technologies')])>
+                    @foreach($technologies as $technology)
+                      <input {{ in_array($technology->id, old('technologies', $project_technologies_id ?? [])) ? 'checked' : '' }} @class(['form-check-input', 'is-invalid' => $errors->has('technologies')]) id="technologies-{{ $technology->id }}" name="technologies[]" type="checkbox" value="{{ $technology->id }}">
                       <label class="form-check-label me-2" for="technologies-{{ $technology->id }}">{{ $technology->label }}</label>
-                  @endforeach
+                    @endforeach
+                  </div>
+                      @error('technologies')
+                        <div class="invalid-feedback">
+                          {{ $message }}
+                        </div>
+                      @enderror
                 </div>
 
                 <div class="mb-3">
