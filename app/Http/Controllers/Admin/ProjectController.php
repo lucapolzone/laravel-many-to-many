@@ -55,13 +55,15 @@ class ProjectController extends Controller
         $data = $this->validation($request->all());
         // dd($data);
         // dd($data['image']);
- 
-        Storage::put('uploads/projects', $data['image']);
+        
+        $img_path = Storage::put('uploads/projects', $data['image']);
 
         $project = new Project;
 
         $project->fill($data);
 
+        $project->image = $img_path;
+        
         $project->save();
 
         if (Arr::exists($data, 'technologies')) {
