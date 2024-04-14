@@ -63,7 +63,12 @@ class ProjectController extends Controller
         $project->fill($data);
 
         $project->image = $img_path;
-        
+
+        if (Arr::exists($data, 'image')) {
+            $img_path = Storage::put('uploads/projects', $data['image']);
+            $project->image = $img_path;
+        }
+
         $project->save();
 
         if (Arr::exists($data, 'technologies')) {
@@ -115,6 +120,22 @@ class ProjectController extends Controller
         $data = $this->validation($request->all());
 		$project->update($data);
 
+        //se arriva una nuova immagine
+        if(Arr::exists($data,'image')) {
+            //se ce n'era una prima
+            if(!empty($project->image)) {
+                //la elimino
+                Storage::delete($project->image);
+            }
+            //salva la nuova img
+            $img_path = Storage::put('uploads/projects', $data['image']);
+            $project->image = $img_path;
+        }
+        
+        $project->save();
+
+        // dd($project);
+
         if (Arr::exists($data, 'technologies')) {
             $project->technologies()->sync($data['technologies']);
         } else {
@@ -148,7 +169,7 @@ class ProjectController extends Controller
               'content' => 'required|max:300',
               'link' => 'required',
               'technologies' => 'required|exists:technologies,id',
-              'image' => 'nullable'
+              'image' => 'nullable|image'
             ],
             [
               //... messaggi di errore

@@ -64,8 +64,14 @@
 
                 <div class="col-12">
                   <div class="mb-3">
-                    <label  class="form-label" for="image">Immagine post</label>
-                    <input id="image" class="form-control" name="image" type="file">
+                    <label class="form-label" for="image">Immagine post</label>
+                    <input @class(['form-control', 'is-invalid' => $errors->has('image')]) id="image" class="form-control" name="image" type="file">
+                    @error('image')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror    
+                    
                   </div>
                 </div>
 

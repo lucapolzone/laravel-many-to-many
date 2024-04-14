@@ -45,6 +45,14 @@
                   @enderror
                 </div>
 
+                <div class="col-12">
+                  <div class="mb-3">
+                    <label class="form-label" for="image">Immagine post</label>
+                    <input @class(['form-control', 'is-invalid' => $errors->has('image')]) id="image" class="form-control" name="image" type="file">
+                  </div>
+                </div>
+
+
                 <div class="mb-3">
                   <label class="form-label" for="link">Link progetto</label>
                   <input class="form-control @error('link') is-invalid @enderror" value="{{ old('link') ?? $project->link }}" type="url" id="link" name="link">
