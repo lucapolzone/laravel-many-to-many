@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
 
@@ -53,6 +54,9 @@ class ProjectController extends Controller
         // $data = $request->all();
         $data = $this->validation($request->all());
         // dd($data);
+        // dd($data['image']);
+ 
+        Storage::put('uploads/projects', $data['image']);
 
         $project = new Project;
 
@@ -141,7 +145,8 @@ class ProjectController extends Controller
               'type_id' => 'required',
               'content' => 'required|max:300',
               'link' => 'required',
-              'technologies' => 'required|exists:technologies,id'
+              'technologies' => 'required|exists:technologies,id',
+              'image' => 'nullable'
             ],
             [
               //... messaggi di errore

@@ -4,7 +4,7 @@
     <section class="my-3">
         <div class="container">
             <h1 class="mb-5">Inserisci un nuovo progetto</h1>
-            <form action="{{ route('admin.projects.store') }}" method="POST" class="row mb-4">
+            <form enctype="multipart/form-data" action="{{ route('admin.projects.store') }}" method="POST" class="row mb-4">
                 @csrf
 
                 <div class="col-5">
@@ -16,13 +16,6 @@
                     </div>
                   @enderror
                 </div>
-
-                {{-- <div class="col-7" style="max-width: 655px">
-                  @foreach($technologies as $technology)
-                      <input class="form-check-input" id="technologies-{{ $technology->id }}" name="technologies[]" type="checkbox" value="{{ $technology->id }}">
-                      <label class="form-check-label me-2" for="technologies-{{ $technology->id }}">{{ $technology->label }}</label>
-                  @endforeach
-                </div> --}}
 
                 <div class="col-7" style="max-width: 655px">
                   <div @class(['is-invalid' => $errors->has('technologies')])>
@@ -69,6 +62,13 @@
                     @enderror  
                 </div>
 
+                <div class="col-12">
+                  <div class="mb-3">
+                    <label  class="form-label" for="image">Immagine post</label>
+                    <input id="image" class="form-control" name="image" type="file">
+                  </div>
+                </div>
+
                 <div class="mb-3">
                     <label class="form-label" for="link">Link al progetto</label>
                     <input class="form-control @error('link') is-invalid @enderror" value="{{ old('link') }}" type="url" id="link" name="link">
@@ -78,6 +78,7 @@
                       </div>
                     @enderror  
                 </div>
+
                 <div>
                   <button type="submit" class="btn btn-success">Salva</button>
                 </div>
